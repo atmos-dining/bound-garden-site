@@ -21,6 +21,8 @@
 
 ## 公開を再開する時
 
+`bash scripts/publish-github.sh` で、保存済みの atmos-dining 認証を使ったリポジトリ確認・必要時のみ作成、pull --rebase、push、Pages設定、公開コミットと主要ページの確認を順番に実行する。認証アカウントの切り替えやトークンのファイル保存は行わない。接続失敗、既存変更、rebase競合があれば停止する。
+
 1. 同じ正規アカウントのGitHub接続を確認。
 2. `atmos-dining/bound-garden-site` の存在を確認。存在しない場合のみ作成。
 3. リモートに既存の内容があれば必ず保全・統合。`git pull --rebase origin main` を実行してからpush。force pushは使わない。
