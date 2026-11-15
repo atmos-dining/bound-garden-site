@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /bound-garden-site/admin/
+
+Sitemap: https://atmos-dining.github.io/bound-garden-site/sitemap.xml

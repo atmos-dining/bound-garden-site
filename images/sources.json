@@ -1,0 +1,31 @@
+{
+  "source": "https://tabelog.com/fukuoka/A4001/A400201/40073441/",
+  "retrieved": "2026-11-15",
+  "description": "店舗掲載のメイン写真。口コミ投稿者の写真は使用していない。",
+  "assets": [
+    {
+      "filename": "buffet.jpg",
+      "source_url": "https://tblg.k-img.com/resize/660x370c/restaurant/images/Rvw/353632/173d53c9c0be5daf4ec2bee8a360ac46.jpg?token=0d466f4&api=v2"
+    },
+    {
+      "filename": "seasonal.jpg",
+      "source_url": "https://tblg.k-img.com/resize/660x370c/restaurant/images/Rvw/353632/241c1382785ca6b9bee34450a0d0197d.jpg?token=e07e6ac&api=v2"
+    },
+    {
+      "filename": "bread.jpg",
+      "source_url": "https://tblg.k-img.com/resize/660x370c/restaurant/images/Rvw/353632/4f705217a7fef1131bec3d3f6e9da9d9.jpg?token=407042c&api=v2"
+    },
+    {
+      "filename": "salad.jpg",
+      "source_url": "https://tblg.k-img.com/resize/660x370c/restaurant/images/Rvw/353632/612eac204ab3466b6f65af233eb2959b.jpg?token=b74aed7&api=v2"
+    },
+    {
+      "filename": "italian.jpg",
+      "source_url": "https://tblg.k-img.com/resize/660x370c/restaurant/images/Rvw/353632/032d6e6605e8a870b3e7867645ed35bb.jpg?token=aef9744&api=v2"
+    },
+    {
+      "filename": "dessert.jpg",
+      "source_url": "https://tblg.k-img.com/resize/660x370c/restaurant/images/Rvw/353632/48a51c3b093d3179328116956c69a50d.jpg?token=1fbfecb&api=v2"
+    }
+  ]
+}
