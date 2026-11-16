@@ -37,7 +37,7 @@ for name in pages:
         path,sep,fragment=route.partition('#')
         if not path or path.endswith('/'):path+='index.html'
         return 'href="'+relative_root+path+(sep+fragment if sep else '')+'"'
-    html = re.sub(r'href="/bound-garden-site/([^\"]*)"', review_link, html)
+    html = re.sub(r'href="/([^\"]*)"', review_link, html)
     target=out/name
     target.parent.mkdir(parents=True,exist_ok=True)
     target.write_text(html)

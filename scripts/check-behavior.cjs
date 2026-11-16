@@ -14,14 +14,14 @@ function tab(id,selected) {
 }
 const lunchTab=tab('lunch-panel',true), dinnerTab=tab('dinner-panel',false);
 const document={
-  currentScript:{src:'https://atmos-dining.github.io/bound-garden-site/common.js'},
+  currentScript:{src:'https://bound-garden.com/common.js'},
   querySelectorAll:q=>q==='[role="tab"]'?[lunchTab,dinnerTab]:[],
   querySelector:()=>null,
   getElementById:id=>({'lunch-panel':panel,'dinner-panel':dinner}[id]||null),
   addEventListener:(type,cb)=>listeners.set(type,cb)
 };
 const window={SITE_CONFIG:{measurementId:''}};
-const context=vm.createContext({document,window,URL,console,location:{href:'https://atmos-dining.github.io/bound-garden-site/menu.html',hash:''},matchMedia:()=>({addEventListener(){}})});
+const context=vm.createContext({document,window,URL,console,location:{href:'https://bound-garden.com/menu.html',hash:''},matchMedia:()=>({addEventListener(){}})});
 vm.runInContext(fs.readFileSync(path.join(root,'common.js'),'utf8'),context);
 (async()=>{
   await listeners.get('DOMContentLoaded')();
@@ -31,7 +31,7 @@ vm.runInContext(fs.readFileSync(path.join(root,'common.js'),'utf8'),context);
   const events=[];
   window.gtag=(...args)=>events.push(args);
   listeners.get('click')(click('tel:0929634777'));
-  listeners.get('click')({target:{closest:()=>({getAttribute:()=> 'https://tabelog.com/fukuoka/A4001/A400201/40073441/',hasAttribute:k=>k==='data-reservation',textContent:'食べログで予約'})}});
+  listeners.get('click')({target:{closest:()=>({getAttribute:()=> 'https://yoyaku.toreta.in/boundgarden/#/',hasAttribute:k=>k==='data-reservation',textContent:'トレタで予約'})}});
   listeners.get('click')(click('https://www.instagram.com/bound.garden/'));
   assert.equal(events.length,2,'Only telephone / booking links count as conversion events');
   assert.equal(events[0][1],'phone_click');
@@ -42,6 +42,6 @@ vm.runInContext(fs.readFileSync(path.join(root,'common.js'),'utf8'),context);
   assert.equal(dinnerTab.attrs['aria-selected'],'true');
   dinnerTab.events.get('keydown')({key:'ArrowLeft',preventDefault(){}});
   assert.equal(panel.hidden,false);assert.equal(dinner.hidden,true);assert.equal(lunchTab.focused,true);
-  assert.equal(window.SiteLinks.url('blog/posts/post.html?slug=hello'),'https://atmos-dining.github.io/bound-garden-site/blog/posts/post.html?slug=hello');
+  assert.equal(window.SiteLinks.url('blog/posts/post.html?slug=hello'),'https://bound-garden.com/blog/posts/post.html?slug=hello');
   console.log('PASS: late-loading GA4, phone/booking clicks, menu tabs and keyboard navigation, nested URL resolution.');
 })().catch(e=>{console.error(e);process.exitCode=1;});

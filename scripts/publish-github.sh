@@ -5,7 +5,8 @@ set -euo pipefail
 cd "$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 repository='atmos-dining/bound-garden-site'
 expected_remote="https://github.com/${repository}.git"
-expected_url='https://atmos-dining.github.io/bound-garden-site/'
+expected_url='https://bound-garden.com/'
+expected_domain='bound-garden.com'
 gh_bin='/Users/shutaono/.local/bin/gh'
 if [ ! -x "$gh_bin" ]; then gh_bin="$(command -v gh)"; fi
 if [ "$(git remote get-url origin)" != "$expected_remote" ]; then
@@ -41,7 +42,7 @@ if ! gh_atmos api "repos/$repository/pages" --jq '.cname // ""' >"$publish_tmp/c
   pages_exists=false
 else
   pages_exists=true
-  if [ -s "$publish_tmp/cname" ] && [ -n "$(cat "$publish_tmp/cname")" ]; then
+  if [ -s "$publish_tmp/cname" ] && [ -n "$(cat "$publish_tmp/cname")" ] && [ "$(cat "$publish_tmp/cname")" != "$expected_domain" ]; then
     echo '停止: 既存の独自ドメインを検出しました。現在の公開先を確認してから再開してください。' >&2; exit 1
   fi
 fi
@@ -65,12 +66,13 @@ remote_commit="$(git_atmos ls-remote origin refs/heads/main | cut -f1)"
 
 echo '4/5 GitHub Pagesを main / root に設定します。'
 if [ "$pages_exists" = true ]; then method=PUT; else method=POST; fi
-gh_atmos api --method "$method" "repos/$repository/pages" -f build_type=legacy -f 'source[branch]=main' -f 'source[path]=/' >/dev/null
+gh_atmos api --method "$method" "repos/$repository/pages" -f cname="$expected_domain" -f build_type=legacy -f 'source[branch]=main' -f 'source[path]=/' >/dev/null
 site_url="$(gh_atmos api "repos/$repository/pages" --jq .html_url)"
-if [ "$site_url" != "$expected_url" ]; then
+if [ "$site_url" != "$expected_url" ] && [ "$site_url" != "http://$expected_domain/" ]; then
   echo "停止: 想定外の公開URLです: $site_url" >&2; exit 1
 fi
 
+site_url="$expected_url"
 echo '5/5 公開されたコミットとページを確認します（通常1〜3分）。'
 for attempt in {1..18}; do
   if build="$(gh_atmos api "repos/$repository/pages/builds/latest" --jq '[.status,.commit] | @tsv' 2>"$publish_tmp/error")"; then
@@ -82,12 +84,14 @@ for attempt in {1..18}; do
     fi
     if [ "$build_status" = built ] && [ "$build_commit" = "$published_commit" ]; then
       verified=true
-      for page in '' menu.html blog/ admin/; do
+      for page in '' menu.html course.html drink.html blog/ admin/; do
         if ! curl --fail --silent --show-error --connect-timeout 10 --max-time 20 "$site_url$page" -o "$publish_tmp/page" || ! grep -q 'Bound Garden' "$publish_tmp/page"; then
           verified=false; break
         fi
       done
       if [ "$verified" = true ]; then
+        gh_atmos api --method PUT "repos/$repository/pages" -F https_enforced=true >/dev/null
+        [ "$(gh_atmos api "repos/$repository/pages" --jq .https_enforced)" = true ] || { echo "HTTPS強制の確認待ちです。"; exit 2; }
         echo "本番公開を確認しました: $site_url"
         echo "GitHub main: $published_commit"
         exit 0
@@ -98,5 +102,5 @@ for attempt in {1..18}; do
   fi
   if [ "$attempt" -lt 18 ]; then sleep 10; fi
 done
-echo "GitHubへのpushは完了しています。Pagesの公開完了はまだ確認できません: $site_url" >&2
+echo "GitHubへのpushは完了しています。DNS・SSL証明書またはPagesの公開待ちです。同じコマンドで再確認できます: $site_url" >&2
 exit 2

@@ -1,3 +1,5 @@
+> 独自ドメイン移行の最新状況は `docs/domain-launch.md` を参照してください。
+
 # Bound Garden
 
 福岡・新宮のイタリアンブッフェ店舗サイト。ビルド不要の HTML / CSS / JavaScript。
@@ -16,7 +18,7 @@
 
 予定リポジトリ：`atmos-dining/bound-garden-site`。
 独自ドメイン未指定のため、GitHub Pages の `/bound-garden-site/` 配下を基準とする。
-予定URL：`https://atmos-dining.github.io/bound-garden-site/`。公開済みとは限らないので、下の状態を参照。
+予定URL：`https://bound-garden.com/`。公開済みとは限らないので、下の状態を参照。
 
 内部リンクは `/bound-garden-site/` から始める。`common.js` の実際の読み込み位置に合わせてローカルプレビュー時のリンクを解決する。CMS の画像 public_folder もこのパスに一致させている。
 

@@ -53,7 +53,8 @@
     });
   }
   function loadAnalytics() {
-    if (!/^G-[A-Z0-9]+$/.test(config?.measurementId || '')) return;
+    if (window.__boundAnalyticsLoaded || !/^G-[A-Z0-9]+$/.test(config?.measurementId || '')) return;
+    window.__boundAnalyticsLoaded = true;
     window.dataLayer = window.dataLayer || [];
     window.gtag = window.gtag || function(){window.dataLayer.push(arguments);};
     window.gtag('js', new Date());

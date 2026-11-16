@@ -6,7 +6,7 @@ from urllib.parse import urlsplit, unquote
 import json, xml.etree.ElementTree as ET
 
 root=Path(__file__).resolve().parents[1]
-prefix='/bound-garden-site/'
+prefix='/'
 failures=[]
 class Page(HTMLParser):
     def __init__(self):
@@ -56,7 +56,7 @@ for loc in sitemap.iter('{http://www.sitemaps.org/schemas/sitemap/0.9}loc'):
     if not target.is_file():failures.append('Invalid sitemap URL: '+loc.text)
 assert isinstance(json.loads((root/'blog/posts.json').read_text())['posts'],list)
 config=(root/'admin/config.yml').read_text()
-for required in ['files:', 'file: blog/posts.json','add_to_top: true','repo: atmos-dining/bound-garden-site','public_folder: /bound-garden-site/images']:
+for required in ['files:', 'file: blog/posts.json','add_to_top: true','repo: atmos-dining/bound-garden-site','public_folder: /images']:
     if required not in config:failures.append('CMS missing '+required)
 if '\n    folder:' in config:failures.append('CMS folder collection forbidden')
 if not (root/'.nojekyll').exists():failures.append('.nojekyll missing')
