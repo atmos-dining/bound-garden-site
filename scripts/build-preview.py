@@ -7,7 +7,7 @@ import re
 root = Path(__file__).resolve().parents[1]
 out = root / 'preview'
 out.mkdir(exist_ok=True)
-pages = ['index.html', 'menu.html', 'blog/index.html', 'blog/posts/post.html', 'privacy.html', '404.html']
+pages = ['index.html', 'menu.html', 'course.html', 'drink.html', 'blog/index.html', 'blog/posts/post.html', 'privacy.html', '404.html']
 for name in pages:
     page = root / name
     relative_root = '../' * (len(Path(name).parts)-1) or './'
